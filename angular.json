@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "projects": {
+    "editor-app": {
+      "projectType": "application",
+      "root": "apps/editor-app",
+      "sourceRoot": "apps/editor-app/src",
+      "prefix": "gql-web-editor",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/editor-app",
+            "index": "apps/editor-app/src/index.html",
+            "main": "apps/editor-app/src/main.ts",
+            "polyfills": "apps/editor-app/src/polyfills.ts",
+            "tsConfig": "apps/editor-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/editor-app/src/favicon.ico",
+              "apps/editor-app/src/assets"
+            ],
+            "styles": ["apps/editor-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/editor-app/src/environments/environment.ts",
+                  "with": "apps/editor-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "editor-app:build:production"
+            },
+            "development": {
+              "browserTarget": "editor-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "editor-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/editor-app/src/**/*.ts",
+              "apps/editor-app/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/editor-app"],
+          "options": {
+            "jestConfig": "apps/editor-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "editor-app-e2e": {
+      "root": "apps/editor-app-e2e",
+      "sourceRoot": "apps/editor-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/editor-app-e2e/cypress.json",
+            "devServerTarget": "editor-app:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "editor-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/editor-app-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["editor-app"]
+    }
+  }
+}

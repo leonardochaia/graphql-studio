@@ -1,0 +1,53 @@
+{
+  // Editor config.
+  "editor.rulers": [80],
+  "editor.tabSize": 4,
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.markdownlint": true,
+    "source.organizeImports": true
+  },
+  // Files configuration.
+  "files.eol": "\n",
+  "html.autoClosingTags": false,
+  "prettier.requireConfig": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  // Linters.
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[md]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "markdownlint.config": {
+    "default": true,
+    "MD030": {
+      "ol_multi": 1,
+      "ol_single": 1,
+      "ul_multi": 3,
+      "ul_single": 3
+    }
+  },
+  // EsLint configuration.
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.run": "onType",
+  "eslint.packageManager": "yarn"
+}
