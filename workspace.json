@@ -1,0 +1,124 @@
+{
+  "version": 2,
+  "projects": {
+    "editor-react-app": {
+      "root": "apps/editor-react-app",
+      "sourceRoot": "apps/editor-react-app/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:webpack",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "compiler": "babel",
+            "outputPath": "dist/apps/editor-react-app",
+            "index": "apps/editor-react-app/src/index.html",
+            "baseHref": "/",
+            "main": "apps/editor-react-app/src/main.tsx",
+            "polyfills": "apps/editor-react-app/src/polyfills.ts",
+            "tsConfig": "apps/editor-react-app/tsconfig.app.json",
+            "assets": [
+              "apps/editor-react-app/src/favicon.ico",
+              "apps/editor-react-app/src/assets"
+            ],
+            "styles": ["apps/editor-react-app/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "apps/editor-react-app/webpack.config.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/editor-react-app/src/environments/environment.ts",
+                  "with": "apps/editor-react-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "editor-react-app:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "editor-react-app:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/editor-react-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/editor-react-app"],
+          "options": {
+            "jestConfig": "apps/editor-react-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "editor-ui": {
+      "root": "libs/editor-ui",
+      "sourceRoot": "libs/editor-ui/src",
+      "projectType": "library",
+      "tags": [],
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/editor-ui/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/editor-ui"],
+          "options": {
+            "jestConfig": "libs/editor-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "graphql-utils": {
+      "root": "libs/graphql-utils",
+      "sourceRoot": "libs/graphql-utils/src",
+      "projectType": "library",
+      "tags": [],
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/graphql-utils/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/graphql-utils"],
+          "options": {
+            "jestConfig": "libs/graphql-utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}
