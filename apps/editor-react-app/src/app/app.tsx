@@ -5,7 +5,7 @@ import {
 } from '@gql-web-editor/editor-ui';
 import { useFetcher, useSchema } from '@gql-web-editor/graphql-utils';
 import { editor, KeyCode, KeyMod, Uri } from 'monaco-editor';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const url = 'https://api.spacex.land/graphql/';
 
@@ -54,15 +54,27 @@ export default function App() {
     run: execOperation,
   };
 
-  return (
-    <div id="wrapper">
-      <div id="left-pane" className="pane">
-        <QueryEditor action={queryAction}></QueryEditor>
-        <VariablesEditor action={queryAction}></VariablesEditor>
-      </div>
-      <div id="right-pane" className="pane">
-        <QueryResultPreview></QueryResultPreview>
-      </div>
+  return loadingSchema ? (
+    <div className="loading-wrapper">
+      <div className="loading-schema">Loading Schema</div>
     </div>
+  ) : (
+    <React.Fragment>
+      <div>
+        Select Schema
+        <select>
+          <option>Space X</option>
+        </select>
+      </div>
+      <div className="wrapper">
+        <div className="pane left-pane">
+          <QueryEditor action={queryAction}></QueryEditor>
+          <VariablesEditor action={queryAction}></VariablesEditor>
+        </div>
+        <div className="pane right-pane">
+          <QueryResultPreview></QueryResultPreview>
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
