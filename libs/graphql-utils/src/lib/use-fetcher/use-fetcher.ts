@@ -1,26 +1,38 @@
-import { createGraphiQLFetcher, Fetcher } from '@graphiql/toolkit';
+import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import * as JSONC from 'jsonc-parser';
 import { useEffect, useState } from 'react';
 import { fetcherReturnToPromise } from '../fetcher.utils';
 
+/**
+ * Executes a GQL query when query or variables changes.
+ * If no query is provided, undefined is returned
+ * @param url The GQL endpoint to use when fetching
+ * @param query The GQL query to execute
+ * @param operationName Optional operation name
+ * @param variables Optional variables
+ * @returns The output of executing the query or undefined if no query is provided
+ */
 export function useFetcher<TResult>(
   url: string,
-  query: string,
+  query?: string,
   operationName: string = '',
   variables?: string
 ): [TResult | undefined, boolean, unknown] {
-  const createFetcher = () =>
-    createGraphiQLFetcher({
-      url,
-    });
+  const fetcher = createGraphiQLFetcher({
+    url,
+  });
 
-  const [fetcher, setFetcher] = useState<Fetcher>(createFetcher);
   const [response, setResponse] = useState<TResult>();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
+    if (!query) {
+      setResponse(undefined);
+      setIsLoading(false);
+      return;
+    }
 
     fetcherReturnToPromise(
       fetcher({
@@ -39,7 +51,7 @@ export function useFetcher<TResult>(
         setError(e);
         setIsLoading(false);
       });
-  }, [fetcher]);
+  }, [query, variables]);
 
   return [response, isLoading, error];
 }

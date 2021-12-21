@@ -3,50 +3,56 @@ import {
   QueryResultPreview,
   VariablesEditor,
 } from '@gql-web-editor/editor-ui';
-import {
-  fetcherReturnToPromise,
-  useSchema,
-} from '@gql-web-editor/graphql-utils';
-import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import * as JSONC from 'jsonc-parser';
+import { useFetcher, useSchema } from '@gql-web-editor/graphql-utils';
 import { editor, KeyCode, KeyMod, Uri } from 'monaco-editor';
+import { useEffect, useState } from 'react';
 
 const url = 'https://api.spacex.land/graphql/';
 
-const fetcher = createGraphiQLFetcher({
-  url,
-});
+export default function App() {
+  const [schema, loadingSchema] = useSchema(url);
 
-const execOperation = async function () {
-  const variables = editor.getModel(Uri.file('variables.json'))!.getValue();
-  const operations = editor.getModel(Uri.file('operation.graphql'))!.getValue();
-  const resultsModel = editor.getModel(Uri.file('results.json'));
+  const [currentQuery, setCurrentQuery] = useState<string>();
+  const [currentVariables, setCurrentVariables] = useState<string>();
 
-  const result = await fetcherReturnToPromise(
-    fetcher({
-      query: operations,
-      variables: JSON.stringify(JSONC.parse(variables)),
-      operationName: '',
-    })
+  const [resultOutput, loadingResult, resultError] = useFetcher(
+    url,
+    currentQuery,
+    '',
+    currentVariables
   );
 
-  resultsModel?.setValue(JSON.stringify(result.data, null, 2));
-};
+  // When the current result changes, update the results editor
+  useEffect(() => {
+    if (!resultOutput) return;
 
-const queryAction = {
-  id: 'graphql-run',
-  label: 'Run Operation',
-  contextMenuOrder: 0,
-  contextMenuGroupId: 'graphql',
-  keybindings: [
-    // eslint-disable-next-line no-bitwise
-    KeyMod.CtrlCmd | KeyCode.Enter,
-  ],
-  run: execOperation,
-};
+    const resultsModel = editor.getModel(Uri.file('results.json'));
+    resultsModel?.setValue(JSON.stringify(resultOutput, null, 2));
+  }, [resultOutput]);
 
-export default function App() {
-  const [schema, loading] = useSchema(url);
+  // When Run Operation is triggered
+  // update state with current editor values
+  const execOperation = () => {
+    const operations = editor
+      .getModel(Uri.file('operation.graphql'))
+      ?.getValue();
+    const variables = editor.getModel(Uri.file('variables.json'))?.getValue();
+
+    setCurrentQuery(operations);
+    setCurrentVariables(variables);
+  };
+
+  const queryAction = {
+    id: 'graphql-run',
+    label: 'Run Operation',
+    contextMenuOrder: 0,
+    contextMenuGroupId: 'graphql',
+    keybindings: [
+      // eslint-disable-next-line no-bitwise
+      KeyMod.CtrlCmd | KeyCode.Enter,
+    ],
+    run: execOperation,
+  };
 
   return (
     <div id="wrapper">
