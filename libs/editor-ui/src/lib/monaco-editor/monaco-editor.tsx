@@ -1,5 +1,5 @@
 import { editor } from 'monaco-editor';
-import React, { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createEditor, getOrCreateEditorModel } from '../editor.utils';
 import './monaco-editor.module.scss';
 
@@ -12,9 +12,9 @@ export interface MonacoEditorProps {
 }
 
 export function MonacoEditor(props: MonacoEditorProps) {
-  const elementRef = React.useRef(null);
+  const elementRef = useRef(null);
   const [currentEditor, setCurrentEditor] =
-    React.useState<editor.IStandaloneCodeEditor | null>(null);
+    useState<editor.IStandaloneCodeEditor | null>(null);
 
   const resultsModel = getOrCreateEditorModel(
     props.filePath,

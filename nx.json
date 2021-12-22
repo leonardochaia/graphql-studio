@@ -1,5 +1,5 @@
 {
-  "npmScope": "gql-web-editor",
+  "npmScope": "graphql-studio",
   "affected": {
     "defaultBase": "main"
   },

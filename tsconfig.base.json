@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@gql-web-editor/editor-ui": ["libs/editor-ui/src/index.ts"],
-      "@gql-web-editor/graphql-utils": ["libs/graphql-utils/src/index.ts"]
+      "@graphql-studio/editor-ui": ["libs/editor-ui/src/index.ts"],
+      "@graphql-studio/graphql-utils": ["libs/graphql-utils/src/index.ts"]
     },
     "types": ["node"]
   },

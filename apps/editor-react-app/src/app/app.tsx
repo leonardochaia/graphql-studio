@@ -2,10 +2,10 @@ import {
   QueryEditor,
   QueryResultPreview,
   VariablesEditor,
-} from '@gql-web-editor/editor-ui';
-import { useFetcher, useSchema } from '@gql-web-editor/graphql-utils';
+} from '@graphql-studio/editor-ui';
+import { useFetcher, useSchema } from '@graphql-studio/graphql-utils';
 import { editor, KeyCode, KeyMod, Uri } from 'monaco-editor';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const url = 'https://api.spacex.land/graphql/';
 
@@ -59,22 +59,17 @@ export default function App() {
       <div className="loading-schema">Loading Schema</div>
     </div>
   ) : (
-    <React.Fragment>
-      <div>
-        Select Schema
-        <select>
-          <option>Space X</option>
-        </select>
+    <div className="wrapper">
+      <div style={{ background: '#2aa9c0' }}>
+        <div>SpaceX</div>
       </div>
-      <div className="wrapper">
-        <div className="pane left-pane">
-          <QueryEditor action={queryAction}></QueryEditor>
-          <VariablesEditor action={queryAction}></VariablesEditor>
-        </div>
-        <div className="pane right-pane">
-          <QueryResultPreview></QueryResultPreview>
-        </div>
+      <div className="pane left-pane">
+        <QueryEditor action={queryAction}></QueryEditor>
+        <VariablesEditor action={queryAction}></VariablesEditor>
       </div>
-    </React.Fragment>
+      <div className="pane right-pane">
+        <QueryResultPreview></QueryResultPreview>
+      </div>
+    </div>
   );
 }
